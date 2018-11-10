@@ -8,9 +8,10 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap(); // added 
+  initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
+  registerServiceWorker();
 });
 
 /**
@@ -78,7 +79,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1Ijoic3BpY3ljaGVtIiwiYSI6ImNqb2FhbzE5ODA1dzEzd3J3cTVlcGZpdHEifQ.Ov5TkqkCvxeNkjZSzQrHxw',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -146,8 +147,13 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  var tabOrder = 0;
   restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
+    var element = createRestaurantHTML(restaurant);
+    element.tabindex = tabOrder
+    console.log(element.tabindex);
+    tabOrder++;
+    ul.append(element);
   });
   addMarkersToMap();
 }
@@ -161,6 +167,7 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = "Restaurant Image"
   li.append(image);
 
   const name = document.createElement('h1');
@@ -197,7 +204,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 
-} 
+}
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
@@ -209,3 +216,11 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 } */
 
+
+registerServiceWorker = () => {
+  if (!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/js/sw.js').then(function(reg) {
+    console.log(reg);
+  });
+}
