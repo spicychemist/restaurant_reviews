@@ -157,6 +157,20 @@ nav h1 a {
   text-align: left;
   width: 75%;
 }
+
+@media (min-width: 768px) {
+	#restaurants-list {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	#restaurants-list li {
+		width: 20%;
+		height: 100%;
+		flex-grow: 1;
+	}
+}
+
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
@@ -165,6 +179,14 @@ nav h1 a {
   min-height: 248px;
   min-width: 100%;
 }
+
+@media (min-width: 768px) {
+	#restaurants-list .restaurant-img {
+		width: auto;
+		height: auto;
+	}
+}
+
 #restaurants-list li h1 {
   color: #f18200;
   font-family: Arial,sans-serif;

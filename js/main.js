@@ -151,7 +151,6 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     var element = createRestaurantHTML(restaurant);
     element.tabindex = tabOrder
-    console.log(element.tabindex);
     tabOrder++;
     ul.append(element);
   });
@@ -167,7 +166,7 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = "Restaurant Image"
+  image.alt = restaurant.name + " Image"
   li.append(image);
 
   const name = document.createElement('h1');
@@ -181,6 +180,7 @@ createRestaurantHTML = (restaurant) => {
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
   li.append(address);
+  //
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
@@ -220,7 +220,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 registerServiceWorker = () => {
   if (!navigator.serviceWorker) return;
 
-  navigator.serviceWorker.register('/js/sw.js').then(function(reg) {
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
     console.log(reg);
   });
 }
